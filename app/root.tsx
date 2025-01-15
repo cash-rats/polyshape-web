@@ -10,6 +10,7 @@ import type { LinksFunction } from "@remix-run/node";
 import "./tailwind.css";
 
 export const links: LinksFunction = () => [
+  { rel: "preconnect", href: "/scripts/trianglify.bundle.js" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
@@ -34,6 +35,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body>
         {children}
         <ScrollRestoration />
+        <script src="/scripts/trianglify.bundle.js" />
         <Scripts />
       </body>
     </html>
