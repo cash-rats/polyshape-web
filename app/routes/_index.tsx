@@ -3,8 +3,8 @@ import { Label } from "~/components/ui/label";
 import { Slider } from "~/components/ui/slider";
 
 // TODOs:
-//  - [ ] Add cell size slider
-//  - [ ] Add pattern intensity slider
+//  - [x] Add cell size slider
+//  - [x] Add pattern intensity slider
 //  - [ ] Add pattern triangle variance slider
 //  - [ ] Fixed color
 //  - [ ] Selectable color
@@ -16,20 +16,17 @@ export default function Index() {
     setWidth,
     setHeight,
     setCellSize,
-    setPatternIntensity
+    setPatternIntensity,
+    setShapeVariance,
   } = useTrianglify();
 
   return (
     <div className="min-h-screen flex">
       {/* Fixed-width sidebar */}
       <div className="w-[400px] flex-shrink-0 border-r bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="p-6">
-
+        <div className="flex flex-col gap-8 p-6">
           {/* Width Input */}
           <div className="space-y-2">
-            <Label htmlFor="width">
-              WIDTH
-            </Label>
             <div className="flex items-center justify-start gap-4">
               <div>
                 <label htmlFor="width" className="block font-bold">Width</label>
@@ -77,9 +74,6 @@ export default function Index() {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <Label htmlFor="patternIntensity">PATTERN INTENSITY</Label>
-              <span className="w-12 rounded-md border border-transparent px-2 py-0.5 text-right text-sm text-muted-foreground hover:border-border">
-                {dimensions.cellSize}px
-              </span>
             </div>
             <Slider
               id="patternIntensity"
@@ -88,6 +82,22 @@ export default function Index() {
               step={0.1}
               value={[dimensions.patternIntensity]}
               onValueChange={(value) => setPatternIntensity(value[0])}
+              className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
+            />
+          </div>
+
+          {/* Shape variance slider */}
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <Label htmlFor="shapeVariance">SHAPE VARIANCE</Label>
+            </div>
+            <Slider
+              id="shapeVariance"
+              min={0}
+              max={1}
+              step={0.1}
+              value={[dimensions.variance]}
+              onValueChange={(value) => setShapeVariance(value[0])}
               className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
             />
           </div>

@@ -43,6 +43,10 @@ export const useTrianglify = () => {
     setDimensions({ ...dimensions, height });
   }
 
+  const setShapeVariance = (variance: number) => {
+    setDimensions({ ...dimensions, variance });
+  }
+
   const setPatternIntensity = (patternIntensity: number) => {
     setDimensions({ ...dimensions, patternIntensity });
   }
@@ -58,6 +62,7 @@ export const useTrianglify = () => {
     setWidth,
     setHeight,
     setCellSize,
+    setShapeVariance,
     setPatternIntensity
   }
 }
