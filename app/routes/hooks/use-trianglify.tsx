@@ -4,7 +4,9 @@ export const useTrianglify = () => {
   const [dimensions, setDimensions] = useState({
     width: 1440,
     height: 900,
-    cellSize: 75
+    cellSize: 75, // Adjust for triangle size (smaller = more detailed)
+    variance: 0.75, // Adjust for triangle randomness (0-1)
+    patternIntensity: 0.5 // Adjust bias for gradient intensity
   });
 
   const patternRef = useRef<HTMLDivElement>(null);
@@ -20,7 +22,9 @@ export const useTrianglify = () => {
         const pattern = window.trianglify({
           width: containerWidth,
           height: dimensions.height,
-          cellSize: dimensions.cellSize
+          variance: dimensions.variance,
+          cellSize: dimensions.cellSize,
+          colorFunction: window.trianglify.colorFunctions.interpolateLinear(dimensions.patternIntensity)
         });
 
         patternRef.current.innerHTML = '';
@@ -39,6 +43,10 @@ export const useTrianglify = () => {
     setDimensions({ ...dimensions, height });
   }
 
+  const setPatternIntensity = (patternIntensity: number) => {
+    setDimensions({ ...dimensions, patternIntensity });
+  }
+
   const setCellSize = (cellSize: number) => {
     setDimensions({ ...dimensions, cellSize });
   }
@@ -49,6 +57,7 @@ export const useTrianglify = () => {
     dimensions,
     setWidth,
     setHeight,
-    setCellSize
+    setCellSize,
+    setPatternIntensity
   }
 }
