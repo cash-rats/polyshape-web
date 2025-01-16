@@ -24,7 +24,9 @@ export const useTrianglify = () => {
           height: dimensions.height,
           variance: dimensions.variance,
           cellSize: dimensions.cellSize,
-          colorFunction: window.trianglify.colorFunctions.interpolateLinear(dimensions.patternIntensity)
+          colorFunction: window.trianglify.colorFunctions.interpolateLinear(dimensions.patternIntensity),
+          xColors: 'RdBu',
+          yColors: 'RdYlGn',
         });
 
         patternRef.current.innerHTML = '';

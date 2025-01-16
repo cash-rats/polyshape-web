@@ -1,11 +1,13 @@
 import { useTrianglify } from "./hooks/use-trianglify";
+import { useColorBrewer } from "./hooks/use-color-brewer";
 import { Label } from "~/components/ui/label";
 import { Slider } from "~/components/ui/slider";
+import ColorTiles from "~/components/color-tiles";
 
 // TODOs:
 //  - [x] Add cell size slider
 //  - [x] Add pattern intensity slider
-//  - [ ] Add pattern triangle variance slider
+//  - [x] Add pattern triangle variance slider
 //  - [ ] Fixed color
 //  - [ ] Selectable color
 export default function Index() {
@@ -19,6 +21,8 @@ export default function Index() {
     setPatternIntensity,
     setShapeVariance,
   } = useTrianglify();
+
+  const { colorBrewsers } = useColorBrewer();
 
   return (
     <div className="min-h-screen flex">
@@ -100,6 +104,17 @@ export default function Index() {
               onValueChange={(value) => setShapeVariance(value[0])}
               className="[&_[role=slider]]:h-4 [&_[role=slider]]:w-4"
             />
+          </div>
+
+          {/* Color Palette Selector*/}
+          <div className="space-y-4 flex flex-col items-center">
+            <Label htmlFor="colorPalette">COLOR PALETTE</Label>
+            {
+              Object.keys(colorBrewsers).map((colorDomain) => {
+                const colors = colorBrewsers[colorDomain].colors();
+                return (<ColorTiles key={colorDomain} colors={colors} />)
+              })
+            }
           </div>
         </div>
       </div>
