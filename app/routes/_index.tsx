@@ -42,7 +42,7 @@ export default function Index() {
       {/* Flexible-width main content */}
       <div
         ref={containerRef}
-        className="flex-grow bg-background p-6 pt-[40px] px-[60px] pb-[70px]"
+        className="flex-grow bg-[#e8e8e8] p-6 pt-[40px] px-[60px] pb-[70px]"
       >
         <div
           ref={patternRef}
