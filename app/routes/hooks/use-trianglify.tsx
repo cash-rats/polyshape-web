@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from "react";
-
+import { Dimensions } from "~/types";
 
 export const useTrianglify = (defaultColorPalette: string[]) => {
-  const [dimensions, setDimensions] = useState({
+  const [dimensions, setDimensions] = useState<Dimensions>({
     width: 1440,
     height: 900,
     cellSize: 75, // Adjust for triangle size (smaller = more detailed)
@@ -20,11 +20,7 @@ export const useTrianglify = (defaultColorPalette: string[]) => {
     const updatePattern = () => {
       if (typeof window !== 'undefined' && window.trianglify && patternRef.current && containerRef.current) {
         // Get the actual container width for the pattern
-        const containerWidth = containerRef.current.clientWidth;
-
         const pattern = window.trianglify({
-          width: containerWidth,
-          height: dimensions.height,
           variance: dimensions.variance,
           cellSize: dimensions.cellSize,
           colorFunction: window.trianglify.colorFunctions.interpolateLinear(dimensions.patternIntensity),
@@ -32,8 +28,18 @@ export const useTrianglify = (defaultColorPalette: string[]) => {
           yColors: dimensions.yColors,
         });
 
+        const patternCanvas = pattern.toCanvas();
+
+
+        patternCanvas.style.maxWidth = '100%';
+        patternCanvas.style.maxHeight = '100%';
+
+        // Set canvas dimensions explicitly
+        patternCanvas.style.aspectRatio = `auto ${dimensions.width} / ${dimensions.height}`;
+        patternCanvas.style.objectFit = 'contain';
+
         patternRef.current.innerHTML = '';
-        patternRef.current.appendChild(pattern.toSVG());
+        patternRef.current.appendChild(patternCanvas);
       }
     };
 
