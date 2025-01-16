@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   shapes-web-spa:
     image: 122610512149.dkr.ecr.ap-southeast-1.amazonaws.com/poly-shapes-web
@@ -8,4 +6,4 @@ services:
       dockerfile: dockerfile
     container_name: spa_web
     ports:
-      - "3000:3000"
+      - "3008:3000"
