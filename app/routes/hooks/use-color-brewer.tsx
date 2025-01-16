@@ -13,6 +13,7 @@ export const useColorBrewer = () => {
   }, {});
 
   return {
+    defaultColorPalette: colorBrewsers.YlOrRd.colors(),
     colorBrewsers,
   };
 }

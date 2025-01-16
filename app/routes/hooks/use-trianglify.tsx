@@ -1,12 +1,15 @@
 import { useState, useEffect, useRef } from "react";
 
-export const useTrianglify = () => {
+
+export const useTrianglify = (defaultColorPalette: string[]) => {
   const [dimensions, setDimensions] = useState({
     width: 1440,
     height: 900,
     cellSize: 75, // Adjust for triangle size (smaller = more detailed)
     variance: 0.75, // Adjust for triangle randomness (0-1)
-    patternIntensity: 0.5 // Adjust bias for gradient intensity
+    patternIntensity: 0.5, // Adjust bias for gradient intensity
+    xColors: defaultColorPalette,
+    yColors: defaultColorPalette,
   });
 
   const patternRef = useRef<HTMLDivElement>(null);
@@ -25,8 +28,8 @@ export const useTrianglify = () => {
           variance: dimensions.variance,
           cellSize: dimensions.cellSize,
           colorFunction: window.trianglify.colorFunctions.interpolateLinear(dimensions.patternIntensity),
-          xColors: 'RdBu',
-          yColors: 'RdYlGn',
+          xColors: dimensions.xColors,
+          yColors: dimensions.yColors,
         });
 
         patternRef.current.innerHTML = '';
@@ -57,6 +60,10 @@ export const useTrianglify = () => {
     setDimensions({ ...dimensions, cellSize });
   }
 
+  const setColorPalette = (colorPalette: string[]) => {
+    setDimensions({ ...dimensions, xColors: colorPalette, yColors: colorPalette });
+  }
+
   return {
     patternRef,
     containerRef,
@@ -65,6 +72,7 @@ export const useTrianglify = () => {
     setHeight,
     setCellSize,
     setShapeVariance,
-    setPatternIntensity
+    setPatternIntensity,
+    setColorPalette,
   }
 }

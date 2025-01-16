@@ -11,6 +11,8 @@ import ColorTiles from "~/components/color-tiles";
 //  - [ ] Fixed color
 //  - [ ] Selectable color
 export default function Index() {
+  const { colorBrewsers, defaultColorPalette } = useColorBrewer();
+
   const {
     patternRef,
     containerRef,
@@ -20,9 +22,8 @@ export default function Index() {
     setCellSize,
     setPatternIntensity,
     setShapeVariance,
-  } = useTrianglify();
-
-  const { colorBrewsers } = useColorBrewer();
+    setColorPalette,
+  } = useTrianglify(defaultColorPalette);
 
   return (
     <div className="min-h-screen flex">
@@ -112,7 +113,7 @@ export default function Index() {
             {
               Object.keys(colorBrewsers).map((colorDomain) => {
                 const colors = colorBrewsers[colorDomain].colors();
-                return (<ColorTiles key={colorDomain} colors={colors} />)
+                return (<ColorTiles key={colorDomain} colors={colors} onSelect={setColorPalette} />)
               })
             }
           </div>
