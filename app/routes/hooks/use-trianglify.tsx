@@ -30,11 +30,8 @@ export const useTrianglify = (defaultColorPalette: string[]) => {
 
         const patternCanvas = pattern.toCanvas();
 
-
         patternCanvas.style.maxWidth = '100%';
         patternCanvas.style.maxHeight = '100%';
-        patternCanvas.style.width = dimensions.width + 'px';
-        patternCanvas.style.height = dimensions.height + 'px';
 
         // Set canvas dimensions explicitly
         patternCanvas.style.aspectRatio = `auto ${dimensions.width} / ${dimensions.height}`;
