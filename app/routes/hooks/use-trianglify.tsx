@@ -3,7 +3,7 @@ import { Dimensions } from "~/types";
 
 export const useTrianglify = (defaultColorPalette: string[]) => {
   const [dimensions, setDimensions] = useState<Dimensions>({
-    width: 1440,
+    width: 900,
     height: 900,
     cellSize: 75, // Adjust for triangle size (smaller = more detailed)
     variance: 0.75, // Adjust for triangle randomness (0-1)
@@ -12,13 +12,13 @@ export const useTrianglify = (defaultColorPalette: string[]) => {
     yColors: defaultColorPalette,
   });
 
-  const patternRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const patternContainerRef = useRef<HTMLDivElement>(null);
+  const [triangifyPattern, setTriangifyPattern] = useState<any>(null);
 
   // Update pattern when dimensions change
   useEffect(() => {
     const updatePattern = () => {
-      if (typeof window !== 'undefined' && window.trianglify && patternRef.current && containerRef.current) {
+      if (typeof window !== 'undefined' && window.trianglify && patternContainerRef.current) {
         // Get the actual container width for the pattern
         const pattern = window.trianglify({
           variance: dimensions.variance,
@@ -26,9 +26,14 @@ export const useTrianglify = (defaultColorPalette: string[]) => {
           colorFunction: window.trianglify.colorFunctions.interpolateLinear(dimensions.patternIntensity),
           xColors: dimensions.xColors,
           yColors: dimensions.yColors,
+          width: dimensions.width,
+          height: dimensions.height,
         });
-
+        setTriangifyPattern(pattern);
         const patternCanvas = pattern.toCanvas();
+
+        patternCanvas.style.width = 'auto';
+        patternCanvas.style.height = 'auto';
 
         patternCanvas.style.maxWidth = '100%';
         patternCanvas.style.maxHeight = '100%';
@@ -36,9 +41,11 @@ export const useTrianglify = (defaultColorPalette: string[]) => {
         // Set canvas dimensions explicitly
         patternCanvas.style.aspectRatio = `auto ${dimensions.width} / ${dimensions.height}`;
         patternCanvas.style.objectFit = 'contain';
+        patternCanvas.style.overflowClipMargin = 'content-box';
+        patternCanvas.style.overflow = 'clip';
 
-        patternRef.current.innerHTML = '';
-        patternRef.current.appendChild(patternCanvas);
+        patternContainerRef.current.innerHTML = '';
+        patternContainerRef.current.appendChild(patternCanvas);
       }
     };
 
@@ -70,8 +77,8 @@ export const useTrianglify = (defaultColorPalette: string[]) => {
   }
 
   return {
-    patternRef,
-    containerRef,
+    patternContainerRef,
+    triangifyPattern,
     dimensions,
     setWidth,
     setHeight,

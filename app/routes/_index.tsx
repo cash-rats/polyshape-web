@@ -1,8 +1,8 @@
-import { DownloadIcon } from '@radix-ui/react-icons';
 import { useTrianglify } from "./hooks/use-trianglify";
 import { useColorBrewer } from "./hooks/use-color-brewer";
 
 import Sidebar from "~/components/sidebar";
+import ExportDialog from "~/components/export-dialog";
 
 // TODOs:
 //  - [x] Add cell size slider
@@ -15,8 +15,8 @@ export default function Index() {
   const { colorBrewsers, defaultColorPalette } = useColorBrewer();
 
   const {
-    patternRef,
-    containerRef,
+    patternContainerRef,
+    triangifyPattern,
     dimensions,
     setWidth,
     setHeight,
@@ -41,27 +41,15 @@ export default function Index() {
       />
 
       {/* Flexible-width main content */}
-      <div
-        ref={containerRef}
-        className="flex-grow bg-[#e8e8e8] p-6 pt-[40px] px-[60px] pb-[70px] overflow-y-hidden relative"
-      >
+      <div className="flex justify-center items-center flex-grow bg-[#e8e8e8] p-6 pt-[40px] px-[60px] pb-[70px] overflow-y-hidden relative flex-auto z-[1]">
         <div
-          ref={patternRef}
-          className="w-full h-full flex items-center justify-center"
+          ref={patternContainerRef}
+          className="flex items-center justify-center h-[765px] w-[765px]"
         />
 
         {/* Button to export the pattern (centered at bottom) */}
         <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
-          <button
-            type="button"
-            className="flex items-center px-4 py-2 bg-white text-[#16C47F] rounded-md hover:bg-gray-100"
-            onClick={() => {
-              // TODO: Add your export logic here
-            }}
-          >
-            <DownloadIcon className="w-5 h-5 stroke-current text-[#16C47F]" />
-            <span className="ml-2">Export</span>
-          </button>
+          <ExportDialog triangifyPattern={triangifyPattern} dimensions={dimensions} />
         </div>
       </div>
     </div>
